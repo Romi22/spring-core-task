@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- Define your beans here -->
+
+<!--    load properties file:Employee.properties-->
+<context:property-placeholder location="classpath:EmployeeDetails.properties"/>
+
+    <bean id="myFormatter" class="com.luv2code.springdemo.DateFormatter" >
+<!--        <property name = "createdOn" value="2020/12/08|yyyy/mm/dd"/>-->
+    </bean>
+
+    <bean id="myDept" class="com.luv2code.springdemo.Department" >
+        <property name="department" value="${emp.department}"/>
+        <property name="createdOn" >
+            <bean factory-bean="myFormatter" factory-method="parse">
+                <constructor-arg value="${emp.date}" />
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="myEmp" class="com.luv2code.springdemo.Employee" >
+        <property name="name"  value="${emp.name}"/>
+        <property name="age"  value="${emp.age}"/>
+        <property name="salary" value="${emp.salary}"/>
+
+        <property name="department" ref="myDept"/>
+        <property name="taskList">
+            <list>
+                <value>Bean</value>
+                <value>Custom Bean</value>
+                <value>Scopes</value>
+            </list>
+        </property>
+    </bean>
+
+</beans>
+
+
+
+
+
